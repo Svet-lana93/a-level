@@ -15,7 +15,7 @@ docker-compose down --rm=all
 docker exec -it a_level_php /bin/bash
 docker exec -it a_level_mysql /bin/bash
 ->mysql -u root -p
-->cbece_gead-cebfa
+->myapp
 exit
 
 docker image prune
@@ -44,7 +44,30 @@ docker --help
 docker version
 
 #autoload
-composer dump-autoload
+    composer dump-autoload
 
 #packagist
-composer require shmidt_student/logger:dev-master
+    composer require shmidt_student/logger:dev-master
+
+#chown
+    sudo chown -R $USER server
+
+#packages
+    barryvdh/laravel-debugbar  -  https://packagist.org/packages/barryvdh/laravel-debugbar
+        composer require barryvdh/laravel-debugbar --dev
+        php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+
+    squizlabs/PHP_CodeSniffer  -  https://github.com/squizlabs/PHP_CodeSniffer
+        composer require squizlabs/php_codesniffer --dev
+        ./vendor/bin/phpcs
+        ./vendor/bin/phpcbf
+
+    nunomaduro/phpinsights  -  https://phpinsights.com/get-started.html#within-laravel
+        composer require nunomaduro/phpinsights --dev
+        php artisan vendor:publish --provider="NunoMaduro\PhpInsights\Application\Adapters\Laravel\InsightsServiceProvider"
+        php artisan insights
+        php artisan insights path/to/analyse --fix
+
+    nunomaduro/larastan  -  https://github.com/nunomaduro/larastan
+        composer require nunomaduro/larastan:^1.0.3 --dev
+        ./vendor/bin/phpstan analyse --memory-limit=2G
