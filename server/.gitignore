@@ -8,8 +8,10 @@
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
-Homestead.yaml
+Homestead.yamlst
 npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+supervisord.log
+supervisord.pid
