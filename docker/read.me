@@ -1,22 +1,22 @@
 #start project
-docker-compose up
-docker-compose up -d
-docker-compose up --build
+    docker-compose up
+    docker-compose up -d
+    docker-compose up --build
 
 #stop project
-docker-compose stop
-docker-compose down
+    docker-compose stop
+    docker-compose down
 
 #kill project
-docker-compose kill
-docker-compose down --rm=all
+    docker-compose kill
+    docker-compose down --rm=all
 
 #docker bash
-docker exec -it a_level_php /bin/bash
-docker exec -it a_level_mysql /bin/bash
-->mysql -u root -p
-->myapp
-exit
+    docker exec -it a_level_php /bin/bash
+    docker exec -it a_level_mysql /bin/bash
+    ->mysql -u root -p
+    ->myapp
+    exit
 
 docker image prune
 docker container prune
@@ -36,12 +36,9 @@ docker volume prune
 #Problem private
     sudo chown -R $USER server
 
-#Problem private
-sudo chown -R $USER server
-
 #docker
-docker --help
-docker version
+    docker --help
+    docker version
 
 #autoload
     composer dump-autoload
@@ -59,7 +56,7 @@ docker version
 
     squizlabs/PHP_CodeSniffer  -  https://github.com/squizlabs/PHP_CodeSniffer
         composer require squizlabs/php_codesniffer --dev
-        ./vendor/bin/phpcs
+        ./vendor/bin/phpcs (./vendor/bin/phpcs app/Http/Controllers/UserController.php)
         ./vendor/bin/phpcbf
 
     nunomaduro/phpinsights  -  https://phpinsights.com/get-started.html#within-laravel

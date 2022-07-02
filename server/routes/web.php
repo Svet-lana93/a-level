@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +16,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(
-    '/',
-    function () {
+Route::get('/', function () {
         return view('welcome');
-    }
-);
-Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'index']);
-Route::get('/product', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
+})->name('mainPage');
+
+Route::prefix('users')->name('users.')->group(function () {
+    Route::get('/', [UserController::class, 'getList'])->name('getList');
+    Route::get('/{user}', [UserController::class, 'getOne'])->whereNumber('user')->name('getUser');
+    Route::match(['get', 'post'], '/create', [UserController::class, 'create'])->name('create');
+    Route::match(['get', 'put'], '/{user}/update', [UserController::class, 'update'])
+        ->whereNumber('user')->name('update');
+    Route::delete('/{user}/delete', [UserController::class, 'delete'])->whereNumber('user')->name('delete');
+});
+
+Route::prefix('videos')->name('videos.')->group(function () {
+    Route::get('/', [VideoController::class, 'getList'])->name('getList');
+    Route::get('/{video}', [VideoController::class, 'getOne'])->whereNumber('video')->name('getVideo');
+    Route::match(['get', 'post'], '/create', [VideoController::class, 'create'])->name('create');
+    Route::match(['get', 'put'], '/{video}/update', [VideoController::class, 'update'])
+        ->whereNumber('video')->name('update');
+    Route::delete('/{video}/delete', [VideoController::class, 'delete'])->whereNumber('video')->name('delete');
+    Route::get('/{user}/user-videos', [VideoController::class, 'userVideos'])->whereNumber('user')->name('userVideos');
+});
+
+Route::prefix('books')->name('books.')->group(function () {
+    Route::get('/', [BookController::class, 'list'])->name('list');
+    Route::get('/create', [BookController::class, 'create']);
+    Route::get('/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
+});
