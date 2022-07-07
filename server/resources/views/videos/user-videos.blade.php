@@ -13,4 +13,7 @@
     <p>
         <a href="{{ route('users.getUser', ['user' => $user]) }}">Back to user</a>
     </p>
+    <p>
+        <a href="{{ route('videos.create') }}">Create new video</a>
+    </p>
 </x-layout>

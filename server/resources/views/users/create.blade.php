@@ -19,6 +19,9 @@
         <label>Email
             <input type="text" name="email"><br>
         </label>
+        <label>Mobile
+            <input type="text" name="mobile"><br>
+        </label>
         <button type="submit">Submit</button>
     </form>
 </x-layout>
