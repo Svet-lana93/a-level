@@ -26,7 +26,7 @@ class VideoController extends Controller
                 ['user_id' => $request->user,
                 'title' => $request->title,
                 'description' => $request->description,
-                'video' => $request->video,]
+                'video' => $request->video]
             );
             $video->save();
             return redirect(route('videos.getList'));

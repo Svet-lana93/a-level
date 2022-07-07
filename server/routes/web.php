@@ -17,7 +17,12 @@ use App\Http\Controllers\VideoController;
 */
 
 Route::get('/', function () {
-        return view('welcome');
+    $user = \App\Models\User::first();
+    $user->options = ['new name', 1, 23];
+
+    dd($user);
+
+//        return view('welcome');
 })->name('mainPage');
 
 Route::prefix('users')->name('users.')->group(function () {
@@ -43,4 +48,5 @@ Route::prefix('books')->name('books.')->group(function () {
     Route::get('/', [BookController::class, 'list'])->name('list');
     Route::get('/create', [BookController::class, 'create']);
     Route::get('/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
+    Route::post('/', [BookController::class, 'store'])->name('store');
 });

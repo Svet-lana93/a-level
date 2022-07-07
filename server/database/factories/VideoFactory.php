@@ -16,7 +16,8 @@ class VideoFactory extends Factory
         return [
             'title' => $this->faker->sentence(2),
             'description' => $this->faker->text(100),
-            'video' => 'Video'
+            'video' => 'https://www.youtube.com/embed/oX4KcY0A9Nc',
+            'status' => rand(1, 3),
         ];
     }
 }

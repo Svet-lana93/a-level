@@ -42,7 +42,23 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'options' => 'array',
     ];
+
+    public function getFirstnameAtribute(string $value)
+    {
+        return strtoupper($value);
+    }
+
+    public function getInfoAtribute($value)
+    {
+        return "$this->firstname $this->email";
+    }
+
+    public function setNameAtribute($value)
+    {
+        return $this->attributes['firstname'] = ucfirst($value);
+    }
 
     public function videos(): HasMany
     {
@@ -52,5 +68,10 @@ class User extends Authenticatable
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);
+    }
+
+    public function libraries()
+    {
+        return $this->belongsToMany(Library::class);
     }
 }

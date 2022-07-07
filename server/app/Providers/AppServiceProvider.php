@@ -23,10 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-    /*
+        /*
         Blade::directive('toupper', function ($expression) {
             return "<?php echo strtoupper($expression)?>";
         });
-    */
+        */
     }
 }
