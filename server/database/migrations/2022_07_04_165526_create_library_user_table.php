@@ -31,6 +31,6 @@ class CreateLibraryUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('librariy_user');
+        Schema::dropIfExists('library_user');
     }
 }
