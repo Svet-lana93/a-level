@@ -3,9 +3,8 @@
         <a href="{{ route('videos.getList') }}">All videos</a>
     </x-slot>
     <x-slot name="title">Update video</x-slot>
-    <form action="" method="POST">
+    <form action="{{ route('videos.edit', ['video' => $video]) }}" method="POST">
         @csrf
-        @method('PUT')
         <p>
             <label>Title<br>
                 <input type="text" name="title" value="{{ $video->title }}">
@@ -22,8 +21,8 @@
             </label>
         </p>
         <p>
-            <label for="user">Choose a user<br>
-                <select name="user">
+            <label for="user_id">Choose a user<br>
+                <select name="user_id">
                     @foreach($users as $user)
                         <option value="{{ $user->id}}" {{ $user->id === $video->user->id ? "selected" : ''}}>
                             {{ $user->firstname  . ' ' . $user->lastname}}

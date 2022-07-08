@@ -2,60 +2,92 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\VideoRepository;
+use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Http\Request;
-use App\Models\Video;
-use App\Models\User;
 
 class VideoController extends Controller
 {
-    public function getList()
+    private $videoRepository;
+
+    public function __construct(VideoRepository $videoRepository)
     {
-        return view('videos.list', ['videos' => Video::all()]);
+        $this->videoRepository = $videoRepository;
     }
 
-    public function getOne(Video $video)
+    public function getList()
     {
+        return view('videos.list', ['videos' => $this->videoRepository->list()]);
+    }
+
+    public function getOne($video)
+    {
+        if (!$video = $this->videoRepository->byId($video)) {
+            abort(404);
+        }
+
         return view('videos.one', ['video' => $video]);
     }
 
-    public function create(Request $request)
+    public function create(UserRepository $userRepository)
     {
-        $users = User::all();
-        if ($request->getMethod() === Request::METHOD_POST) {
-            $video = Video::create(
-                ['user_id' => $request->user,
-                'title' => $request->title,
-                'description' => $request->description,
-                'video' => $request->video]
-            );
-            $video->save();
-            return redirect(route('videos.getList'));
-        }
-        return view('videos.create', ['users' => $users]);
+        return view('videos.create', ['users' => $userRepository->list()]);
     }
 
-    public function update(Video $video, Request $request)
+    public function store(Request $request)
     {
-        $users = User::all();
-        if ($request->getMethod() === Request::METHOD_PUT) {
-            $video->user_id = $request->user;
-            $video->title = $request->title;
-            $video->description = $request->description;
-            $video->video = $request->video;
-            $video->save();
-            return redirect(route('videos.getVideo', ['video' => $video]));
+        $data = $request->validate(
+            ['user_id' => ['required', 'exists:users,id'],
+            'title' => ['required', 'max:255'],
+            'description' => ['required', 'max:255'],
+            'video' => ['required', 'max:255']]
+        );
+        try {
+            $video = $this->videoRepository->create($data);
+        } catch (Exception $e) {
+            //
         }
-        return view('videos.update', ['video' => $video, 'users' => $users]);
+        return redirect(route('videos.getVideo', ['video' => $video]));
     }
 
-    public function delete(Video $video)
+    public function update($video, UserRepository $userRepository)
     {
-        $video->delete();
+        if (!$video = $this->videoRepository->byId($video)) {
+            abort(404);
+        }
+        return view('videos.update', ['video' => $video, 'users' => $userRepository->list()]);
+    }
+
+    public function edit($video, Request $request)
+    {
+        $data = $request->validate(
+            ['user_id' => ['required', 'exists:users,id'],
+            'title' => ['required', 'max:255'],
+            'description' => ['required', 'max:255'],
+            'video' => ['required', 'max:255']]
+        );
+
+
+        if (!$video = $this->videoRepository->byId($video)) {
+            abort(404);
+        }
+        $video = $this->videoRepository->update($video, $data);
+
+        return redirect(route('videos.getVideo', ['video' => $video]));
+    }
+
+    public function delete($video)
+    {
+        if (!$video = $this->videoRepository->byId($video)) {
+            abort(404);
+        }
+        $this->videoRepository->delete($video);
         return redirect(route('videos.getList'));
     }
 
-    public function userVideos(User $user)
+    public function userVideos($id, UserRepository $userRepository)
     {
-        return view('videos.user-videos', ['user' => $user]);
+        return view('videos.user-videos', ['user' => $userRepository->byId($id)]);
     }
 }

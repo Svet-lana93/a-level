@@ -16,8 +16,17 @@
     </head>
     <body>
         <div>{{ $menu }}</div>
+
         <h1>{{ $title }}</h1>
 
         {{ $slot }}
+
+        <div>
+            @auth
+                <a href="{{ route('logout') }}">Logout</a>
+            @else
+                <a href="{{ route('login-page') }}">Login</a>
+            @endauth
+        </div>
     </body>
 </html>

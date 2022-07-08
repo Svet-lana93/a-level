@@ -4,19 +4,30 @@
         <a href="{{ route('users.getList') }}">All users</a>
     </x-slot>
     <x-slot name="title">New video</x-slot>
-    <form action="{{ route('videos.create') }}" method="POST">
+
+    @if ($errors->any())
+        <div>
+            <ul class="color-red">
+                @foreach($errors->all() as $error)
+                    <li> {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('videos.store') }}" method="POST">
         @csrf
         <label>Title
-            <input type="text" name="title"><br>
+            <input type="text" name="title" value="{{ old('title') }}"><br>
         </label>
         <label>Description
-            <input type="text" name="description"><br>
+            <input type="text" name="description" value="{{ old('description') }}"><br>
         </label>
         <label>Video
-            <input type="text" name="video"><br>
+            <input type="text" name="video" value="{{ old('video') }}"><br>
         </label>
-        <label for="user">Choose a user
-            <select name="user">
+        <label for="user_id">Choose a user
+            <select name="user_id">
                 @foreach($users as $user)
                     <option value="{{ $user->id}}">
                         {{ $user->firstname  . ' ' . $user->lastname}}

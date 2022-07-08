@@ -2,53 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 class UserController extends Controller
 {
-    public function getList()
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        return view('users.list', ['users' => User::all()]);
+        $this->userRepository = $userRepository;
     }
 
-    public function getOne(User $user)
+    public function getList()
     {
+        return view('users.list', ['users' => $this->userRepository->list()]);
+    }
+
+    public function getOne($id)
+    {
+        if (!$user = $this->userRepository->byId($id)) {
+            abort(404);
+        }
         return view('users.one', ['user' => $user]);
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        if ($request->getMethod() === Request::METHOD_POST) {
-            $user = new User;
-            $this->updateUser($user, $request);
-            return redirect(route('users.getList'));
-        }
         return view('users.create');
     }
 
-    public function update(User $user, Request $request)
+    public function store(Request $request)
     {
-        if ($request->getMethod() === Request::METHOD_PUT) {
-            $this->updateUser($user, $request);
-            return redirect(route('users.getUser', ['user' => $user]));
+        $data = $request->validate(
+            ['firstname' => ['required', 'max:255'],
+            'lastname' => ['required', 'max:255'],
+            'username' => ['required', 'max:255', 'unique:users,username'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'mobile' => ['nullable']]
+        );
+        try {
+            $user = $this->userRepository->create($data);
+        } catch (Exception $e) {
+            //
+        }
+        return redirect(route('users.getUser', ['user' => $user]));
+    }
+
+    public function update($user)
+    {
+        if (!$user = $this->userRepository->byId($user)) {
+            abort(404);
         }
         return view('users.update', ['user' => $user]);
     }
 
-    public function delete(User $user)
+    public function edit($user, Request $request)
     {
-        $user->delete();
-        return redirect(route('users.getList'));
+        $data = $request->validate(
+            ['firstname' => ['required', 'max:255'],
+                'lastname' => ['required', 'max:255'],
+                'username' => ['required', 'max:255'],
+                'email' => ['required', 'email'],
+                'mobile' => ['nullable']]
+        );
+
+        if (!$user = $this->userRepository->byId($user)) {
+            abort(404);
+        }
+        $user = $this->userRepository->update($user, $data);
+        return redirect(route('users.getUser', ['user' => $user]));
     }
 
-    public function updateUser(User $user, Request $request)
+    public function delete($user)
     {
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->mobile = $request->mobile;
-        $user->save();
+        if (!$user = $this->userRepository->byId($user)) {
+            abort(404);
+        }
+        $this->userRepository->delete($user);
+        return redirect(route('users.getList'));
     }
 }
