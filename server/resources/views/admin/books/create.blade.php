@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.books.store') }}" method="POST">
+    <form action="{{ route('books.store') }}" method="POST">
         @csrf
         <input type="text" name="title" placeholder="title" value="{{ old('title') }}"/>
         <input type="text" name="description" placeholder="description" value="{{ old('description') }}"/><br>
