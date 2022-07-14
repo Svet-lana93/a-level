@@ -48,18 +48,18 @@ class UserController extends Controller
         } catch (Exception $e) {
             //
         }
-        return redirect(route('users.getUser', ['user' => $user]));
+        return redirect(route('users.getUser', ['id' => $user->id]));
     }
 
-    public function update($user)
+    public function update($id)
     {
-        if (!$user = $this->userRepository->byId($user)) {
+        if (!$user = $this->userRepository->byId($id)) {
             abort(404);
         }
         return view('users.update', ['user' => $user]);
     }
 
-    public function edit($user, Request $request)
+    public function edit($id, Request $request)
     {
         $data = $request->validate(
             ['firstname' => ['required', 'max:255'],
@@ -69,19 +69,24 @@ class UserController extends Controller
                 'mobile' => ['nullable']]
         );
 
-        if (!$user = $this->userRepository->byId($user)) {
+        if (!$user = $this->userRepository->byId($id)) {
             abort(404);
         }
         $user = $this->userRepository->update($user, $data);
-        return redirect(route('users.getUser', ['user' => $user]));
+        return redirect(route('users.getUser', ['id' => $user->id]));
     }
 
-    public function delete($user)
+    public function delete($id)
     {
-        if (!$user = $this->userRepository->byId($user)) {
+        if (!$user = $this->userRepository->byId($id)) {
             abort(404);
         }
         $this->userRepository->delete($user);
         return redirect(route('users.getList'));
+    }
+
+    public function userVideos($id)
+    {
+        return view('users.videos', ['user' => $this->userRepository->byId($id)]);
     }
 }

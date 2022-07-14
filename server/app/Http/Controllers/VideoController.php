@@ -21,9 +21,9 @@ class VideoController extends Controller
         return view('videos.list', ['videos' => $this->videoRepository->list()]);
     }
 
-    public function getOne($video)
+    public function getOne($id)
     {
-        if (!$video = $this->videoRepository->byId($video)) {
+        if (!$video = $this->videoRepository->byId($id)) {
             abort(404);
         }
 
@@ -48,18 +48,18 @@ class VideoController extends Controller
         } catch (Exception $e) {
             //
         }
-        return redirect(route('videos.getVideo', ['video' => $video]));
+        return redirect(route('videos.getVideo', ['id' => $video->id]));
     }
 
-    public function update($video, UserRepository $userRepository)
+    public function update($id, UserRepository $userRepository)
     {
-        if (!$video = $this->videoRepository->byId($video)) {
+        if (!$video = $this->videoRepository->byId($id)) {
             abort(404);
         }
         return view('videos.update', ['video' => $video, 'users' => $userRepository->list()]);
     }
 
-    public function edit($video, Request $request)
+    public function edit($id, Request $request)
     {
         $data = $request->validate(
             ['user_id' => ['required', 'exists:users,id'],
@@ -69,25 +69,20 @@ class VideoController extends Controller
         );
 
 
-        if (!$video = $this->videoRepository->byId($video)) {
+        if (!$video = $this->videoRepository->byId($id)) {
             abort(404);
         }
         $video = $this->videoRepository->update($video, $data);
 
-        return redirect(route('videos.getVideo', ['video' => $video]));
+        return redirect(route('videos.getVideo', ['id' => $video->id]));
     }
 
-    public function delete($video)
+    public function delete($id)
     {
-        if (!$video = $this->videoRepository->byId($video)) {
+        if (!$video = $this->videoRepository->byId($id)) {
             abort(404);
         }
         $this->videoRepository->delete($video);
         return redirect(route('videos.getList'));
-    }
-
-    public function userVideos($id, UserRepository $userRepository)
-    {
-        return view('videos.user-videos', ['user' => $userRepository->byId($id)]);
     }
 }

@@ -3,7 +3,7 @@
         <a href="{{ route('videos.getList') }}">All videos</a>
     </x-slot>
     <x-slot name="title">Update video</x-slot>
-    <form action="{{ route('videos.edit', ['video' => $video]) }}" method="POST">
+    <form action="{{ route('videos.edit', ['id' => $video->id]) }}" method="POST">
         @csrf
         <p>
             <label>Title<br>

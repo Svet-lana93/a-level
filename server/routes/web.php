@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
@@ -18,7 +20,9 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return view('welcome');
+    dd(Auth::guard('admin')->user(),
+    Auth::user());
 })->name('mainPage');
 
 Route::get('login', [AuthController::class, 'login'])->name('login-page');
@@ -27,31 +31,31 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'getList'])->name('getList');
-    Route::get('/{user}', [UserController::class, 'getOne'])->whereNumber('user')->name('getUser');
+    Route::get('/{id}', [UserController::class, 'getOne'])->whereNumber('id')->name('getUser');
     Route::get('/create', [UserController::class, 'create'])->name('create');
     Route::post('/', [UserController::class, 'store'])->name('store');
-    Route::get('/{user}/update', [UserController::class, 'update'])->whereNumber('user')->name('update');
-    Route::post('/{user}', [UserController::class, 'edit'])->whereNumber('user')->name('edit');
-    Route::delete('/{user}/delete', [UserController::class, 'delete'])->whereNumber('user')->name('delete');
+    Route::get('/{id}/update', [UserController::class, 'update'])->whereNumber('id')->name('update');
+    Route::post('/{id}', [UserController::class, 'edit'])->whereNumber('id')->name('edit');
+    Route::delete('/{id}', [UserController::class, 'delete'])->whereNumber('id')->name('delete');
+    Route::get('/{id}/videos', [UserController::class, 'userVideos'])->whereNumber('id')->name('userVideos');
 });
 
 Route::prefix('videos')->name('videos.')->group(function () {
     Route::get('/', [VideoController::class, 'getList'])->name('getList');
-    Route::get('/{video}', [VideoController::class, 'getOne'])->whereNumber('video')->name('getVideo');
+    Route::get('/{id}', [VideoController::class, 'getOne'])->whereNumber('id')->name('getVideo');
     Route::get('/create', [VideoController::class, 'create'])->name('create');
     Route::post('/', [VideoController::class, 'store'])->name('store');
-    Route::get('/{video}/update', [VideoController::class, 'update'])->whereNumber('video')->name('update');
-    Route::post('/{video}', [VideoController::class, 'edit'])->whereNumber('video')->name('edit');
-    Route::delete('/{video}/delete', [VideoController::class, 'delete'])->whereNumber('video')->name('delete');
-    Route::get('/{user}/user-videos', [VideoController::class, 'userVideos'])->whereNumber('user')->name('userVideos');
+    Route::get('/{id}/update', [VideoController::class, 'update'])->whereNumber('id')->name('update');
+    Route::post('/{id}', [VideoController::class, 'edit'])->whereNumber('id')->name('edit');
+    Route::delete('/{id}', [VideoController::class, 'delete'])->whereNumber('id')->name('delete');
 });
 
 Route::prefix('books')->name('books.')->group(function () {
     Route::get('/', [BookController::class, 'list'])->name('list');
-    Route::get('/{book}', [BookController::class, 'view'])->whereNumber('book')->name('view');
+    Route::get('/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
     Route::get('/create', [BookController::class, 'create'])->name('create');
     Route::post('/', [BookController::class, 'store'])->name('store');
-    Route::get('/{book}/update', [BookController::class, 'update'])->whereNumber('book')->name('update');
-    Route::post('/{book}', [BookController::class, 'edit'])->name('edit');
-    Route::delete('/{book}', [BookController::class, 'delete'])->whereNumber('book')->name('delete');
+    Route::get('/{id}/update', [BookController::class, 'update'])->whereNumber('id')->name('update');
+    Route::post('/{id}', [BookController::class, 'edit'])->whereNumber('id')->name('edit');
+    Route::delete('/{id}', [BookController::class, 'delete'])->whereNumber('id')->name('delete');
 });

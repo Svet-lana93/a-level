@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('books.edit', ['book' => $book]) }}" method="POST">
+    <form action="{{ route('books.edit', ['id' => $book->id]) }}" method="POST">
         @csrf
         <p>
             <label>Title

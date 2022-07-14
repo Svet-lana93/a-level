@@ -3,7 +3,7 @@
         <a href="{{ route('users.getList') }}">All users</a>
     </x-slot>
     <x-slot name="title">Update user</x-slot>
-    <form action="{{ route('users.edit', ['user' => $user]) }}" method="POST">
+    <form action="{{ route('users.edit', ['id' => $user->id]) }}" method="POST">
         @csrf
         <p>
             <label>First Name

@@ -49,18 +49,18 @@ class BookController extends Controller
         } catch (Exception $e) {
             //
         }
-        return redirect(route('books.view', ['book' => $book]));
+        return redirect(route('books.view', ['id' => $book->id]));
     }
 
-    public function update($book, UserRepository $userRepository)
+    public function update($id, UserRepository $userRepository)
     {
-        if (!$book = $this->bookRepository->byId($book)) {
+        if (!$book = $this->bookRepository->byId($id)) {
             abort(404);
         }
         return (view('books.update', ['book' => $book, 'users' => $userRepository->list()]));
     }
 
-    public function edit($book, Request $request)
+    public function edit($id, Request $request)
     {
         $data = $request->validate(
             ['title' => ['required', 'max:255'],
@@ -68,17 +68,17 @@ class BookController extends Controller
             'user_id' => ['required', 'exists:users,id']]
         );
 
-        if (!$book = $this->bookRepository->byId($book)) {
+        if (!$book = $this->bookRepository->byId($id)) {
             abort(404);
         }
         $book = $this->bookRepository->update($book, $data);
 
-        return redirect(route('books.view', ['book' => $book]));
+        return redirect(route('books.view', ['id' => $book->id]));
     }
 
-    public function delete($book)
+    public function delete($id)
     {
-        if (!$book = $this->bookRepository->byId($book)) {
+        if (!$book = $this->bookRepository->byId($id)) {
             abort(404);
         }
         $this->bookRepository->delete($book);

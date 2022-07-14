@@ -1,5 +1,5 @@
 <li>
-    <a href="{{ route('users.getUser', ['user' => $user]) }}">
+    <a href="{{ route('users.getUser', ['id' => $user->id]) }}">
         {{ $user->firstname . ' ' . $user->lastname }}
     </a>
 </li>
