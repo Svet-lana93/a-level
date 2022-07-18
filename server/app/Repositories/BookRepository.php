@@ -6,19 +6,17 @@ use App\Models\Book;
 
 class BookRepository
 {
-    public function list()
+    public function list(): object
     {
-        return Book::select('books.*', 'users.firstname as user_name')
-            ->join('users', 'users.id', '=', 'books.user_id')
-            ->get();
+        return $this->initialQuery()->get();
     }
 
-    public function byId(int $id)
+    public function byId(int $id): object
     {
         return Book::find($id);
     }
 
-    public function create(array $data)
+    public function create(array $data): object
     {
         $book = new Book;
         $book->title = $data['title'];
@@ -29,7 +27,7 @@ class BookRepository
         return $book;
     }
 
-    public function update(Book $book, array $data)
+    public function update(Book $book, array $data): object
     {
         if (isset($data['title'])) {
             $book->title = $data['title'];
@@ -46,6 +44,16 @@ class BookRepository
     public function delete(Book $book)
     {
         $book->delete();
-        return $book;
+    }
+
+    public function byUserId($userId): object
+    {
+        return $this->initialQuery()->where('user_id', $userId)->get();
+    }
+
+    public function initialQuery(): object
+    {
+        return Book::select('books.*', 'users.firstname as user_name')
+            ->join('users', 'users.id', '=', 'books.user_id');
     }
 }

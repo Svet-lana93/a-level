@@ -7,17 +7,17 @@ use Illuminate\Http\Request;
 
 class UserRepository
 {
-    public function list()
+    public function list(): object
     {
         return User::all();
     }
 
-    public function byId(int $id)
+    public function byId(int $id): object
     {
         return User::find($id);
     }
 
-    public function create(array $data)
+    public function create(array $data): object
     {
         $user = new User;
         $user->firstname = $data['firstname'];
@@ -30,7 +30,7 @@ class UserRepository
         return $user;
     }
 
-    public function update(User $user, array $data)
+    public function update(User $user, array $data): object
     {
         if (isset($data['firstname'])) {
             $user->firstname = $data['firstname'];
@@ -54,6 +54,5 @@ class UserRepository
     public function delete(User $user)
     {
         $user->delete();
-        return $user;
     }
 }

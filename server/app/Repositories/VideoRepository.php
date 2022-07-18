@@ -6,17 +6,17 @@ use App\Models\Video;
 
 class VideoRepository
 {
-    public function list()
+    public function list(): object
     {
         return Video::all();
     }
 
-    public function byId(int $id)
+    public function byId(int $id): object
     {
         return Video::find($id);
     }
 
-    public function create(array $data)
+    public function create(array $data): object
     {
         $video = new Video;
         $video->user_id = $data['user_id'];
@@ -27,7 +27,7 @@ class VideoRepository
         return $video;
     }
 
-    public function update(Video $video, array $data)
+    public function update(Video $video, array $data): object
     {
         $video->user_id = $data['user_id'];
 
@@ -48,6 +48,5 @@ class VideoRepository
     public function delete(Video $video)
     {
         $video->delete();
-        return $video;
     }
 }
