@@ -1,18 +1,7 @@
 <x-layout>
-    <x-slot name="menu">
-
-    </x-slot>
     <x-slot name="title">Create book</x-slot>
 
-    @if ($errors->any())
-        <div>
-            <ul class="color-red">
-                @foreach($errors->all() as $error)
-                    <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-errors></x-errors>
 
     <form action="{{ route('admin.books.store') }}" method="POST">
         @csrf

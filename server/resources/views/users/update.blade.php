@@ -1,8 +1,8 @@
 <x-layout>
-    <x-slot name="menu">
-        <a href="{{ route('users.getList') }}">All users</a>
-    </x-slot>
     <x-slot name="title">Update user</x-slot>
+
+    <x-errors></x-errors>
+
     <form action="{{ route('users.edit', ['id' => $user->id]) }}" method="POST">
         @csrf
         <p>

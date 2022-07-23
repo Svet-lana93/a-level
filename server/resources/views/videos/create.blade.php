@@ -1,19 +1,7 @@
 <x-layout>
-    <x-slot name="menu">
-        <a href="{{ route('videos.getList') }}">All videos</a>
-        <a href="{{ route('users.getList') }}">All users</a>
-    </x-slot>
     <x-slot name="title">New video</x-slot>
 
-    @if ($errors->any())
-        <div>
-            <ul class="color-red">
-                @foreach($errors->all() as $error)
-                    <li> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-errors></x-errors>
 
     <form action="{{ route('videos.store') }}" method="POST">
         @csrf

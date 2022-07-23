@@ -1,8 +1,8 @@
 <x-layout>
-    <x-slot name="menu">
-        <a href="{{ route('videos.getList') }}">All videos</a>
-    </x-slot>
     <x-slot name="title">Update video</x-slot>
+
+    <x-errors></x-errors>
+
     <form action="{{ route('videos.edit', ['id' => $video->id]) }}" method="POST">
         @csrf
         <p>

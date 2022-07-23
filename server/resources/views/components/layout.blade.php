@@ -15,12 +15,19 @@
         </style>
     </head>
     <body>
-        <div>{{ $menu }}</div>
+        <div>
+            @foreach($menu as $item)
+                <a href="{{ route($item['route']) }}"
+                   @if($item['active']) class="bold" @endif>
+                    {{ $item['title'] }}
+                </a>
+            @endforeach
+        </div>
 
         <h1>{{ $title }}</h1>
-
+        <hr/>
         {{ $slot }}
-
+        <hr/>
         <div>
             @auth
                 <a href="{{ route('logout') }}">Logout</a>
