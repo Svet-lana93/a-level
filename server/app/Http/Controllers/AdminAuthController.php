@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserLogin;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AdminAuthController extends Controller
 {
     public function login()
     {
-        return view('auth.login');
+        return view('admin.auth.login');
     }
 
     public function auth(Request $request)
@@ -21,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required',]
         );
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
@@ -32,10 +30,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('admin.books.list/');
     }
 }

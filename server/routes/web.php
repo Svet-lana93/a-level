@@ -1,12 +1,16 @@
 <?php
 
+use App\Components\Store\Repositories\StoreRepositoryContract;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +24,27 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-//    return view('welcome');
-    dd(Auth::guard('admin')->user(),
-    Auth::user());
+    return view('welcome');
+//    dd(Auth::guard('admin')->user(),
+//    Auth::user());
 })->name('mainPage');
+Route::get('test', function (StoreRepositoryContract  $storeRepository) {
+
+    dd($storeRepository->byId(2));
+});
+
+Route::get('stores', [StoreController::class, 'getList'])->name('getList');
+Route::get('stores/{id}', [StoreController::class, 'getOne'])->whereNumber('id')->name('getOne');
 
 Route::get('login', [AuthController::class, 'login'])->name('login-page');
 Route::post('login', [AuthController::class, 'auth'])->name('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::prefix('registration')->name('registration.')->group(function () {
+    Route::get('/', [RegistrationController::class, 'view'])->name('register-page');
+    Route::post('/', [RegistrationController::class, 'post'])->name('register');
+    Route::get('/verification/{token}', [RegistrationController::class, 'verification'])->name('verification');
+});
 
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'getList'])->name('getList');
@@ -59,3 +76,5 @@ Route::prefix('books')->name('books.')->group(function () {
     Route::post('/{id}', [BookController::class, 'edit'])->whereNumber('id')->name('edit');
     Route::delete('/{id}', [BookController::class, 'delete'])->whereNumber('id')->name('delete');
 });
+
+Route::resource('libraries', LibraryController::class);

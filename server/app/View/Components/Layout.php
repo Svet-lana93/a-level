@@ -18,10 +18,12 @@ class Layout extends Component
      */
     public function __construct()
     {
-        $this->menu = collect(config('menu'))->map(function ($item) {
-            $item['active'] = request()->routeIs($item['route']);
-            return $item;
-        });
+        $this->menu = collect(config('menu'))->map(
+            function ($item) {
+                $item['active'] = request()->routeIs($item['route']);
+                return $item;
+            }
+        );
     }
 
     /**

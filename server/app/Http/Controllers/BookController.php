@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BookUpdate;
 use App\Repositories\BookRepository;
 use App\Repositories\UserRepository;
 use Exception;
@@ -72,7 +73,7 @@ class BookController extends Controller
             abort(404);
         }
         $book = $this->bookRepository->update($book, $data);
-
+        BookUpdate::dispatch($book);
         return redirect(route('books.view', ['id' => $book->id]));
     }
 
