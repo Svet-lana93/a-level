@@ -25,7 +25,7 @@ class StoreController extends Controller
         }
         return view('stores.one', ['store' => $store]);
     }
-/*
+    /*
        public function create()
        {
            return view('users.create');
@@ -85,5 +85,6 @@ class StoreController extends Controller
        public function userVideos($id)
        {
            return view('users.videos', ['user' => $this->userRepository->byId($id)]);
-       }*/
+       }
+    */
 }

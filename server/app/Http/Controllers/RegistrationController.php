@@ -23,14 +23,16 @@ class RegistrationController extends Controller
 
     public function post(Request $request)
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'firstname' => ['required', 'max:255'],
             'lastname' => ['required', 'max:255'],
             'username' => ['required', 'max:255', 'unique:users,username'],
             'email' => ['required', 'email', 'unique:users,email'],
             'mobile' => ['nullable'],
             'password' => ['required', 'max:50']
-        ]);
+            ]
+        );
         $user = $this->registrationRepository->post($data);
         EmailVerification::dispatch($user);
 

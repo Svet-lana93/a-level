@@ -30,7 +30,7 @@ Route::get('/', function () {
 })->name('mainPage');
 Route::get('test', function (StoreRepositoryContract  $storeRepository) {
 
-    dd($storeRepository->byId(2));
+    dd($storeRepository->byId(1));
 });
 
 Route::get('stores', [StoreController::class, 'getList'])->name('getList');
@@ -70,9 +70,10 @@ Route::prefix('videos')->name('videos.')->group(function () {
 Route::prefix('books')->name('books.')->group(function () {
     Route::get('/', [BookController::class, 'list'])->name('list');
     Route::get('/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
-    Route::get('/create', [BookController::class, 'create'])->name('create');
+    Route::get('/create', [BookController::class, 'create'])->middleware('token')->name('create');
     Route::post('/', [BookController::class, 'store'])->name('store');
-    Route::get('/{id}/update', [BookController::class, 'update'])->whereNumber('id')->name('update');
+    Route::get('/{id}/update', [BookController::class, 'update'])->middleware('my_auth:admin')
+        ->whereNumber('id')->name('update');
     Route::post('/{id}', [BookController::class, 'edit'])->whereNumber('id')->name('edit');
     Route::delete('/{id}', [BookController::class, 'delete'])->whereNumber('id')->name('delete');
 });

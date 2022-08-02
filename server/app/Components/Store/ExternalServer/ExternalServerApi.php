@@ -57,7 +57,7 @@ class ExternalServerApi
         }
     }
 
-    private function client()
+    private function client(): Client
     {
         return new Client(
             [

@@ -18,12 +18,6 @@ class EmailVerificationLogging
         //
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Events\EmailVerification  $event
-     * @return void
-     */
     public function handle(EmailVerification $event)
     {
         Mail::to($event->user)->send(new EmailVerificated($event->user));

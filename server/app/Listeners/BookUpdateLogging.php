@@ -22,12 +22,6 @@ class BookUpdateLogging
         //
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Events\BookUpdate  $event
-     * @return void
-     */
     public function handle(BookUpdate $event)
     {
         Mail::to(User::first())->send(new BookUpdated($event->book));

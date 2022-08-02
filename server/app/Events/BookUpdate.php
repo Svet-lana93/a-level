@@ -15,6 +15,12 @@ class BookUpdate
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     *
+     *
+     * @return Book
+     */
+
     public $book;
 
     /**
