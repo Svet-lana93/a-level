@@ -13,6 +13,8 @@
         <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag"/>
         <exclude name="Generic.Commenting.DocComment.MissingShort"/>
         <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
     </rule>
     <rule ref="PSR2"/>
 </ruleset>

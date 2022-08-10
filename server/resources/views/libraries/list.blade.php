@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot name="title">All users</x-slot>
+    <x-slot name="title">Libraries</x-slot>
     <ul>
         @foreach($libraries as $library)
             <li>

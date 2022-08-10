@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot name="title">All users</x-slot>
+    <x-slot name="title">Users</x-slot>
     <ul>
         @each('users.list-item', $users, 'user')
     </ul>

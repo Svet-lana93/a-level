@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot name="title">All videos</x-slot>
+    <x-slot name="title">Videos</x-slot>
     @foreach ($videos as $video)
         <li>
             <a href="{{ route('videos.getVideo', ['id' => $video->id]) }}">

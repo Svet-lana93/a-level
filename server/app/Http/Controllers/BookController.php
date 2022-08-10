@@ -7,7 +7,6 @@ use App\Repositories\BookRepository;
 use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\Book;
 
 class BookController extends Controller
 {
