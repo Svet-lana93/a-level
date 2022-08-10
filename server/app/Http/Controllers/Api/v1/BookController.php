@@ -6,7 +6,7 @@ use App\Http\Resources\BookResource;
 use App\Repositories\BookRepository;
 use Illuminate\Http\Request;
 
-class StoreBookController extends BaseController
+class BookController extends BaseController
 {
     private $bookRepository;
 

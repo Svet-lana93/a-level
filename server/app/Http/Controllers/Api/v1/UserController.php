@@ -6,7 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
-class StoreUserController
+class UserController
 {
     public $userRepository;
 
