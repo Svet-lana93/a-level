@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Repositories\UserRepository;
+use App\Repositories\UserSessionTokenRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserAuthResource extends JsonResource
@@ -20,12 +21,12 @@ class UserAuthResource extends JsonResource
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
-            'token' => $this->userRepository()->tokenByUserId($this->id),
+            'token' => $this->userSessionTokenRepository()->byUserId($this->id)->token,
         ];
     }
 
-    private function userRepository(): UserRepository
+    private function userSessionTokenRepository(): UserSessionTokenRepository
     {
-        return app(UserRepository::class);
+        return app(UserSessionTokenRepository::class);
     }
 }

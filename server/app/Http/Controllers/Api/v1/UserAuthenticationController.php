@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Resources\UserAuthResource;
 use App\Repositories\UserRepository;
+use App\Repositories\UserSessionTokenRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserAuthenticationController extends BaseController
 {
-    public function login(Request $request, UserRepository $userRepository)
-    {
+    public function login(
+        Request $request,
+        UserRepository $userRepository,
+        UserSessionTokenRepository $userSessionTokenRepository
+    ) {
         $data = $request->validate(
             ['email' => 'required|email',
             'password' => 'required']
@@ -24,7 +28,7 @@ class UserAuthenticationController extends BaseController
             return response(['error' => 'User not found or password is incorrect'], 403);
         }
 
-        $userRepository->createToken($user);
+        $userSessionTokenRepository->createOrUpdate($user);
 
         return new UserAuthResource($user);
     }

@@ -5,9 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\UserSessionToken;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserRepository
@@ -69,21 +67,6 @@ class UserRepository
     public function byUsername(string $username)
     {
         return User::where('username', $username)->first();
-    }
-
-    public function createToken(User $user): UserSessionToken
-    {
-        $userSessionToken = new UserSessionToken();
-        $userSessionToken->user_id = $user->id;
-        $userSessionToken->token = Str::random(68);
-        $userSessionToken->save();
-
-        return $userSessionToken;
-    }
-
-    public function tokenByUserId(int $userId)
-    {
-        return DB::table('user_session_tokens')->where('user_id', $userId)->value('token');
     }
 
     public function byToken($token)

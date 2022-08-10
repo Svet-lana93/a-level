@@ -3,6 +3,8 @@
 namespace App\Services\Auth;
 
 use App\Repositories\UserRepository;
+use App\Repositories\UserSessionTokenRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -24,6 +26,14 @@ class HttpUserAuthenticationService implements UserAuthenticationServiceContract
         }
 
         if (!$user = $this->userRepository->byToken($token)) {
+            throw new \Exception('Token is invalid', 403);
+        }
+
+        $userSessionTokenRepository = new UserSessionTokenRepository();
+
+        $updatedAt = $userSessionTokenRepository->updatedAt($token);
+
+        if (Carbon::now() > Carbon::create($updatedAt)->addHour()) {
             throw new \Exception('Token is invalid', 403);
         }
 
