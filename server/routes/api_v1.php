@@ -8,8 +8,9 @@ Route::post('login', [UserAuthenticationController::class, 'login']);
 Route::get('books/', [StoreBookController::class, 'list'])->name('list');
 Route::get('books/{id}', [StoreBookController::class, 'view'])->whereNumber('id')->name('view');
 
-Route::prefix('books')->middleware('auth_api')->name('books.')->group(function () {
+Route::prefix('books')->name('books.')->group(function () {
     Route::post('/', [StoreBookController::class, 'create'])->name('create');
     Route::put('/{id}', [StoreBookController::class, 'update'])->whereNumber('id');
     Route::delete('/{id}', [StoreBookController::class, 'delete'])->whereNumber('id')->name('delete');
 });
+//->middleware('auth_api')
