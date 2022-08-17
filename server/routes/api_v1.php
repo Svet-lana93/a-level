@@ -6,10 +6,10 @@ use App\Http\Controllers\Api\v1\UserAuthenticationController;
 use App\Http\Controllers\Api\v1\UserController;
 
 Route::post('login', [UserAuthenticationController::class, 'login']);
-Route::get('books/', [BookController::class, 'list'])->name('list');
-Route::get('books/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
 
 Route::prefix('books')->middleware('auth_api')->name('books.')->group(function () {
+    Route::get('/', [BookController::class, 'list'])->name('list');
+    Route::get('/{id}', [BookController::class, 'view'])->whereNumber('id')->name('view');
     Route::post('/', [BookController::class, 'create'])->name('create');
     Route::put('/{id}', [BookController::class, 'update'])->whereNumber('id');
     Route::delete('/{id}', [BookController::class, 'delete'])->whereNumber('id')->name('delete');
