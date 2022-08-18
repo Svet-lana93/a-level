@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AccessByIp;
 use App\Services\Auth\Middleware\UserAuthByToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'auth_api' => UserAuthByToken::class,
         'token' => \App\Http\Middleware\EnsureTokenIsValid::class,
         'my_auth' => \App\Http\Middleware\Auth::class,
+        'access_by_ip' => AccessByIp::class,
     ];
 }
