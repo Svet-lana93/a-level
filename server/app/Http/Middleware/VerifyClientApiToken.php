@@ -26,12 +26,11 @@ class VerifyClientApiToken
 
     public function handle(Request $request, Closure $next)
     {
-        /*
+
         $apiToken = $request->header('api-token');
         if (!$apiToken || !$this->clientRepository->byApiToken($apiToken)) {
             return response(['error' => 'Client is not verified'], 403);
         }
-        */
 
         return $next($request);
     }
